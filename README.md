@@ -21,14 +21,7 @@ HTML · CSS · JavaScript · Canvas API · Web Crypto API
 
 ## Modo Admin
 
-O portfólio tem um sistema de edição protegido por senha (hash SHA-256). Para acessar:
-
-1. Clique em qualquer botão ✏️ ou tente editar qualquer seção
-2. Digite a senha no modal que aparecer
-3. Com o modo admin ativo, é possível editar textos, adicionar, editar e deletar projetos
-4. Clique em **Sair** no badge roxo para encerrar a sessão
-
-> A senha é armazenada como hash SHA-256 na variável `ADMIN_HASH` no script. Para trocar, gere o hash da nova senha em [emn178.github.io/online-tools/sha256](https://emn178.github.io/online-tools/sha256.html) e substitua o valor.
+O portfólio tem um sistema de edição protegido por senha. Para acessar, clique em qualquer botão ✏️ na página e digite a senha no modal. Com o modo admin ativo é possível editar textos, adicionar, editar e deletar projetos. Clique em **Sair** no badge roxo para encerrar a sessão.
 
 ## Estrutura
 
