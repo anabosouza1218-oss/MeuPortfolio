@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<title>Tomas Oliveira — Portfólio</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --primary:#7a5af8;
+  --primary-light:#9b8afb;
+  --primary-dark:#5925dc;
+  --primary-50:#f4f3ff;
+  --primary-100:#ebe9fe;
+  --bg:#0d0f1a;
+  --bg2:#111827;
+  --bg3:#171f2e;
+  --surface:rgba(255,255,255,0.04);
+  --border:rgba(255,255,255,0.08);
+  --border-hover:rgba(122,90,248,0.4);
+  --text:#f1f0ff;
+  --text-muted:#8892a4;
+  --text-dim:#4b5563;
+  --grad:linear-gradient(97deg,#725cff 0%,#b5b1ff 140%);
+  --grad2:linear-gradient(135deg,rgba(122,90,248,0.15),rgba(181,177,255,0.05));
+}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+h1,h2,h3,h4{font-family:'Syne',sans-serif}
+
+.noise-overlay{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity:0.4;
+}
+
+.glow-orb{
+  position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0;
+}
+.orb1{width:600px;height:600px;background:rgba(122,90,248,0.12);top:-200px;right:-100px}
+.orb2{width:500px;height:500px;background:rgba(78,110,255,0.08);bottom:-150px;left:-100px}
+.orb3{width:300px;height:300px;background:rgba(255,88,213,0.06);top:40%;left:40%}
+
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  padding:16px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(13,15,26,0.8);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Syne',sans-serif;font-weight:800;font-size:20px;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.nav-links{display:flex;gap:32px}
+.nav-links a{
+  color:var(--text-muted);font-size:14px;text-decoration:none;
+  transition:color .2s;cursor:pointer;
+}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{
+  background:var(--grad);color:#fff;border:none;
+  padding:10px 24px;border-radius:999px;font-size:13px;font-weight:500;
+  cursor:pointer;transition:opacity .2s;font-family:'DM Sans',sans-serif;
+}
+.nav-cta:hover{opacity:.85}
+
+section{position:relative;z-index:1}
+
+.hero{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:120px 40px 80px;
+  flex-direction:column;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(122,90,248,0.12);border:1px solid rgba(122,90,248,0.3);
+  padding:6px 16px;border-radius:999px;
+  font-size:13px;color:var(--primary-light);margin-bottom:28px;
+  animation:fadeInUp 0.6s ease both;
+}
+.hero-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--primary-light);animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(0.8)}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero h1{
+  font-size:clamp(42px,6vw,80px);font-weight:800;line-height:1.05;
+  letter-spacing:-2px;max-width:800px;margin-bottom:24px;
+  animation:fadeInUp 0.6s 0.1s ease both;
+}
+.hero h1 span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{
+  font-size:18px;color:var(--text-muted);max-width:500px;line-height:1.7;
+  margin-bottom:40px;font-weight:300;
+  animation:fadeInUp 0.6s 0.2s ease both;
+}
+.hero-actions{
+  display:flex;gap:12px;justify-content:center;flex-wrap:wrap;
+  animation:fadeInUp 0.6s 0.3s ease both;
+}
+.btn-primary{
+  background:var(--grad);color:#fff;border:none;
+  padding:14px 32px;border-radius:999px;font-size:15px;font-weight:500;
+  cursor:pointer;transition:transform .2s,opacity .2s;font-family:'DM Sans',sans-serif;
+}
+.btn-primary:hover{transform:translateY(-2px);opacity:.9}
+.btn-outline{
+  background:transparent;color:var(--text);
+  border:1px solid var(--border-hover);
+  padding:14px 32px;border-radius:999px;font-size:15px;font-weight:500;
+  cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;
+}
+.btn-outline:hover{background:rgba(122,90,248,0.08)}
+
+.tech-strip{
+  padding:40px;display:flex;justify-content:center;flex-wrap:wrap;gap:12px;
+  animation:fadeInUp 0.6s 0.4s ease both;
+}
+.tech-chip{
+  background:var(--surface);border:1px solid var(--border);
+  padding:6px 14px;border-radius:999px;font-size:12px;color:var(--text-muted);
+  transition:all .2s;
+}
+.tech-chip:hover{border-color:var(--border-hover);color:var(--primary-light)}
+
+.section-header{text-align:center;margin-bottom:60px}
+.section-tag{
+  display:inline-block;font-size:12px;letter-spacing:2px;text-transform:uppercase;
+  color:var(--primary-light);margin-bottom:12px;
+}
+.section-header h2{font-size:clamp(28px,4vw,44px);font-weight:700;letter-spacing:-1px;margin-bottom:16px}
+.section-header p{font-size:16px;color:var(--text-muted);max-width:480px;margin:0 auto}
+
+.wrapper{max-width:1100px;margin:0 auto;padding:80px 40px}
+
+.projects-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;
+}
+.project-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:20px;overflow:hidden;transition:all .3s;
+  cursor:pointer;
+}
+.project-card:hover{border-color:var(--border-hover);transform:translateY(-4px)}
+.project-card:hover .card-preview-wrap{border-color:rgba(122,90,248,0.3)}
+.card-preview-wrap{
+  background:rgba(122,90,248,0.05);border-bottom:1px solid var(--border);
+  height:200px;display:flex;align-items:center;justify-content:center;
+  overflow:hidden;position:relative;transition:border-color .3s;
+}
+.card-preview-wrap iframe{
+  width:100%;height:100%;border:none;
+  transform:scale(1);pointer-events:none;
+}
+.iframe-overlay{
+  position:absolute;inset:0;background:transparent;z-index:10;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.iframe-overlay:hover .open-btn{opacity:1;transform:translateY(0)}
+.open-btn{
+  background:rgba(122,90,248,0.9);color:#fff;border:none;
+  padding:8px 20px;border-radius:999px;font-size:13px;cursor:pointer;
+  opacity:0;transform:translateY(8px);transition:all .25s;
+  font-family:'DM Sans',sans-serif;
+}
+.card-body{padding:20px}
+.card-title{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;margin-bottom:6px}
+.card-desc{font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:14px}
+.card-tags{display:flex;gap:6px;flex-wrap:wrap}
+.card-tag{
+  background:rgba(122,90,248,0.1);border:1px solid rgba(122,90,248,0.2);
+  padding:3px 10px;border-radius:999px;font-size:11px;color:var(--primary-light);
+}
+.card-links{display:flex;gap:10px;margin-top:14px}
+.card-link{
+  font-size:12px;color:var(--text-muted);text-decoration:none;
+  display:flex;align-items:center;gap:4px;transition:color .2s;
+}
+.card-link:hover{color:var(--primary-light)}
+.card-link svg{width:12px;height:12px}
+
+.no-preview{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;color:var(--text-dim);width:100%;height:100%;
+}
+.no-preview-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:rgba(122,90,248,0.1);border:1px solid rgba(122,90,248,0.15);
+  display:flex;align-items:center;justify-content:center;
+}
+.no-preview span{font-size:12px;color:var(--text-dim)}
+
+.skills-section{background:var(--bg2)}
+.skills-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;
+}
+.skill-card{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:16px;padding:20px;transition:all .2s;
+}
+.skill-card:hover{border-color:var(--border-hover)}
+.skill-icon{
+  width:42px;height:42px;border-radius:12px;margin-bottom:12px;
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+}
+.skill-card h4{font-size:14px;font-weight:600;margin-bottom:8px}
+.skill-bar-bg{height:3px;background:var(--border);border-radius:999px;margin-bottom:6px}
+.skill-bar{height:3px;border-radius:999px;background:var(--grad);transition:width 1s ease}
+.skill-pct{font-size:11px;color:var(--text-muted);text-align:right}
+
+.about-wrap{
+  display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+}
+.about-visual{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:24px;padding:32px;position:relative;overflow:hidden;
+}
+.about-glow{
+  position:absolute;top:-60px;right:-60px;width:200px;height:200px;
+  border-radius:50%;background:rgba(122,90,248,0.15);filter:blur(60px);pointer-events:none;
+}
+.about-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+.about-stat{
+  background:rgba(122,90,248,0.06);border:1px solid rgba(122,90,248,0.1);
+  border-radius:12px;padding:16px;text-align:center;
+}
+.about-stat-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.about-stat-label{font-size:11px;color:var(--text-muted);margin-top:2px}
+.about-text h2{font-size:clamp(24px,3vw,38px);font-weight:700;letter-spacing:-1px;margin-bottom:20px;line-height:1.2}
+.about-text p{font-size:15px;color:var(--text-muted);line-height:1.8;margin-bottom:16px}
+
+.contact-section{
+  text-align:center;padding:100px 40px;
+  background:linear-gradient(180deg,var(--bg) 0%,var(--bg3) 100%);
+}
+.contact-card{
+  max-width:600px;margin:0 auto;
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:28px;padding:48px;
+}
+.contact-card h2{font-size:36px;font-weight:700;margin-bottom:16px;letter-spacing:-1px}
+.contact-card p{color:var(--text-muted);margin-bottom:32px;line-height:1.7}
+.contact-links{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.contact-link{
+  display:flex;align-items:center;gap:8px;
+  background:var(--surface);border:1px solid var(--border);
+  padding:12px 20px;border-radius:12px;color:var(--text-muted);
+  text-decoration:none;font-size:14px;transition:all .2s;cursor:pointer;
+}
+.contact-link:hover{border-color:var(--border-hover);color:var(--primary-light)}
+.contact-link svg{width:16px;height:16px;flex-shrink:0}
+
+footer{
+  text-align:center;padding:24px;
+  border-top:1px solid var(--border);
+  font-size:13px;color:var(--text-dim);
+}
+
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,0.85);
+  z-index:200;display:none;align-items:center;justify-content:center;
+  padding:20px;backdrop-filter:blur(8px);
+}
+.modal-overlay.active{display:flex}
+.modal-inner{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:20px;width:100%;max-width:1000px;height:80vh;
+  display:flex;flex-direction:column;overflow:hidden;
+}
+.modal-header{
+  padding:16px 20px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.modal-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:700}
+.modal-url{font-size:12px;color:var(--text-muted);margin-top:2px}
+.modal-close{
+  background:var(--surface);border:1px solid var(--border);
+  color:var(--text-muted);width:32px;height:32px;border-radius:8px;
+  cursor:pointer;font-size:18px;line-height:1;display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.modal-close:hover{border-color:var(--border-hover);color:var(--text)}
+.modal-iframe-wrap{flex:1;position:relative}
+.modal-iframe-wrap iframe{width:100%;height:100%;border:none}
+.modal-loading{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  background:var(--bg2);font-size:14px;color:var(--text-muted);
+  transition:opacity .3s;
+}
+
+.add-project-btn{
+  border:2px dashed var(--border);border-radius:20px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;padding:40px;cursor:pointer;transition:all .2s;color:var(--text-muted);
+  background:transparent;font-family:'DM Sans',sans-serif;min-height:280px;
+}
+.add-project-btn:hover{border-color:var(--border-hover);color:var(--primary-light)}
+.add-project-btn svg{width:28px;height:28px;opacity:.5}
+
+.edit-modal{
+  position:fixed;inset:0;background:rgba(0,0,0,0.85);
+  z-index:300;display:none;align-items:center;justify-content:center;
+  padding:20px;backdrop-filter:blur(8px);
+}
+.edit-modal.active{display:flex}
+.edit-form{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:20px;padding:32px;width:100%;max-width:480px;
+}
+.edit-form h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:24px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:12px;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:1px}
+.form-group input,.form-group textarea{
+  width:100%;background:rgba(255,255,255,0.04);border:1px solid var(--border);
+  border-radius:10px;padding:10px 14px;color:var(--text);font-size:14px;
+  font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;
+}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--border-hover)}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px}
+.btn-sm{
+  padding:9px 20px;border-radius:10px;font-size:13px;font-weight:500;
+  cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;
+}
+.btn-sm-outline{background:transparent;border:1px solid var(--border);color:var(--text-muted)}
+.btn-sm-outline:hover{border-color:var(--border-hover)}
+.btn-sm-primary{background:var(--grad);border:none;color:#fff}
+.btn-sm-primary:hover{opacity:.85}
+
+@media(max-width:768px){
+  nav{padding:14px 20px}
+  .nav-links{display:none}
+  .hero{padding:100px 20px 60px}
+  .wrapper{padding:60px 20px}
+  .about-wrap{grid-template-columns:1fr}
+  .projects-grid{grid-template-columns:1fr}
+}
+
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.spinner{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--primary);border-radius:50%;animation:spin 0.8s linear infinite}
+</style>
+</head>
+<body>
+
+<div class="noise-overlay"></div>
+<div class="glow-orb orb1"></div>
+<div class="glow-orb orb2"></div>
+<div class="glow-orb orb3"></div>
+
+<nav>
+  <div class="nav-logo" id="navName">ana.dev</div>
+  <div class="nav-links">
+    <a onclick="scrollTo('projects')">Projetos</a>
+    <a onclick="scrollTo('skills')">Skills</a>
+    <a onclick="scrollTo('experience')">Experiência</a>
+    <a onclick="scrollTo('about')">Sobre</a>
+    <a onclick="scrollTo('contact')">Contato</a>
+  </div>
+  <button class="nav-cta" onclick="scrollTo('contact')">Falar comigo</button>
+</nav>
+
+<section class="hero" id="hero">
+  <div class="hero-badge">
+    <span class="hero-badge-dot"></span>
+    Disponível para novos projetos
+  </div>
+  <h1 id="heroTitle">Olá, eu sou<br/><span id="heroName">Tomas Oliveira</span></h1>
+  <p id="heroDesc">Desenvolvedor Full Stack em formação, apaixonado por tecnologia e educação. Transformo ideias em soluções web funcionais com HTML, CSS, JavaScript, PHP e Python.</p>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="scrollTo('projects')">Ver Projetos</button>
+    <button class="btn-outline" onclick="openEditHero()">✏️ Editar Hero</button>
+  </div>
+</section>
+
+<div class="tech-strip">
+  <div class="tech-chip">HTML</div>
+  <div class="tech-chip">CSS</div>
+  <div class="tech-chip">JavaScript</div>
+  <div class="tech-chip">PHP</div>
+  <div class="tech-chip">Python</div>
+  <div class="tech-chip">Java</div>
+  <div class="tech-chip">C++</div>
+  <div class="tech-chip">MySQL</div>
+  <div class="tech-chip">React</div>
+  <div class="tech-chip">Flask</div>
+  <div class="tech-chip">Figma</div>
+  <div class="tech-chip">Git</div>
+</div>
+
+<section id="projects">
+  <div class="wrapper">
+    <div class="section-header">
+      <span class="section-tag">Portfólio</span>
+      <h2>Projetos em Destaque</h2>
+      <p>Clique em qualquer projeto para ver um preview ao vivo</p>
+    </div>
+    <div class="projects-grid" id="projectsGrid">
+    </div>
+  </div>
+</section>
+
+<section class="skills-section" id="skills">
+  <div class="wrapper">
+    <div class="section-header">
+      <span class="section-tag">Habilidades</span>
+      <h2>Stack Técnica</h2>
+      <p>Tecnologias que uso no dia a dia</p>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-card"><div class="skill-icon" style="background:rgba(255,100,50,0.1)">🌐</div><h4>HTML / CSS</h4><div class="skill-bar-bg"><div class="skill-bar" style="width:92%"></div></div><div class="skill-pct">92%</div></div>
+      <div class="skill-card"><div class="skill-icon" style="background:rgba(255,220,0,0.1)">⚡</div><h4>JavaScript</h4><div class="skill-bar-bg"><div class="skill-bar" style="width:80%"></div></div><div class="skill-pct">80%</div></div>
+      <div class="skill-card"><div class="skill-icon" style="background:rgba(100,150,255,0.1)">�</div><h4>PHP</h4><div class="skill-bar-bg"><div class="skill-bar" style="width:78%"></div></div><div class="skill-pct">78%</div></div>
+      <div class="skill-card"><div class="skill-icon" style="background:rgba(255,165,0,0.1)">🐍</div><h4>Python / Flask</h4><div class="skill-bar-bg"><div class="skill-bar" style="width:72%"></div></div><div class="skill-pct">72%</div></div>
+      <div class="skill-card"><div class="skill-icon" style="background:rgba(78,110,255,0.1)">⚛️</div><h4>React</h4><div class="skill-bar-bg"><div class="skill-bar" style="width:68%"></div></div><div class="skill-pct">68%</div></div>
+      <div class="skill-card"><div class="skill-icon" style="background:rgba(255,88,213,0.1)">🗄️</div><h4>MySQL / SQL</h4><div class="skill-bar-bg"><div class="skill-bar" style="width:82%"></div></div><div class="skill-pct">82%</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrapper">
+    <div class="about-wrap">
+      <div class="about-visual">
+        <div class="about-glow"></div>
+        <div style="font-family:'Syne',sans-serif;font-size:18px;font-weight:700;margin-bottom:8px">Em números</div>
+        <div style="font-size:14px;color:var(--text-muted)">Uma visão geral da minha jornada</div>
+        <div class="about-stat-grid">
+          <div class="about-stat"><div class="about-stat-num" id="statYears">2+</div><div class="about-stat-label">Anos de exp.</div></div>
+          <div class="about-stat"><div class="about-stat-num" id="statProjects">10+</div><div class="about-stat-label">Projetos</div></div>
+          <div class="about-stat"><div class="about-stat-num" id="statCommits">7</div><div class="about-stat-label">Certificados</div></div>
+          <div class="about-stat"><div class="about-stat-num" id="statCoffee">∞</div><div class="about-stat-label">Cafés</div></div>
+        </div>
+        <button class="btn-outline" style="width:100%;margin-top:20px;font-size:13px" onclick="openEditAbout()">✏️ Editar estatísticas</button>
+      </div>
+      <div class="about-text">
+        <span class="section-tag">Sobre mim</span>
+        <h2 id="aboutTitle">Desenvolvedora Full Stack em formação, com foco em impacto real</h2>
+        <p id="aboutP1">Sou estudante de Bacharelado em Sistemas de Informação e Técnica em Informática para Internet pelo IFAC. Atualmente trabalho como Jovem Aprendiz — Programadora Full Stack no SENAI, onde aplico na prática o que aprendo todos os dias.</p>
+        <p id="aboutP2">Tenho experiência com projetos web completos, desde o banco de dados até a interface. Além do código, já atuei como monitora voluntária de inglês e em projetos de extensão científica, o que me deu uma visão ampla sobre ensino, comunicação e trabalho em equipe.</p>
+        <button class="btn-outline" style="font-size:13px" onclick="openEditAbout()">✏️ Editar texto</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience" style="background:var(--bg2)">
+  <div class="wrapper">
+    <div class="section-header">
+      <span class="section-tag">Trajetória</span>
+      <h2>Formação & Experiência</h2>
+      <p>Minha jornada acadêmica e profissional</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
+      <div class="skill-card" style="border-radius:20px;padding:28px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div class="skill-icon" style="background:rgba(122,90,248,0.1);width:48px;height:48px;border-radius:14px;font-size:22px">🎓</div>
+          <div><div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700">Formação</div><div style="font-size:12px;color:var(--text-muted)">Acadêmica</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="border-left:2px solid rgba(122,90,248,0.4);padding-left:14px">
+            <div style="font-size:14px;font-weight:600">Bacharelado em Sistemas de Informação</div>
+            <div style="font-size:12px;color:var(--primary-light);margin-top:2px">Em andamento</div>
+          </div>
+          <div style="border-left:2px solid rgba(122,90,248,0.2);padding-left:14px">
+            <div style="font-size:14px;font-weight:600">Técnico em Informática para Internet</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px">IFAC — Ensino Médio Integrado</div>
+          </div>
+        </div>
+      </div>
+      <div class="skill-card" style="border-radius:20px;padding:28px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div class="skill-icon" style="background:rgba(34,197,94,0.1);width:48px;height:48px;border-radius:14px;font-size:22px">💼</div>
+          <div><div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700">Experiência</div><div style="font-size:12px;color:var(--text-muted)">Profissional</div></div>
+        </div>
+        <div style="border-left:2px solid rgba(34,197,94,0.4);padding-left:14px">
+          <div style="font-size:14px;font-weight:600">Jovem Aprendiz — Programadora Full Stack</div>
+          <div style="font-size:12px;color:var(--primary-light);margin-top:2px">SENAI · 2026 – atualmente</div>
+          <div style="font-size:12px;color:var(--text-muted);margin-top:6px;line-height:1.6">Desenvolvimento de aplicações web em ambiente profissional, aplicando conhecimentos em frontend e backend.</div>
+        </div>
+      </div>
+      <div class="skill-card" style="border-radius:20px;padding:28px">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+          <div class="skill-icon" style="background:rgba(255,165,0,0.1);width:48px;height:48px;border-radius:14px;font-size:22px">🌍</div>
+          <div><div style="font-family:'Syne',sans-serif;font-size:15px;font-weight:700">Extensão & Voluntariado</div><div style="font-size:12px;color:var(--text-muted)">IFAC</div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="border-left:2px solid rgba(255,165,0,0.4);padding-left:14px">
+            <div style="font-size:13px;font-weight:600">Exposição Itinerante de Astronomia</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px">Aluno Bolsista · 2024 — Docência em escolas públicas da Amazônia Ocidental</div>
+          </div>
+          <div style="border-left:2px solid rgba(255,165,0,0.3);padding-left:14px">
+            <div style="font-size:13px;font-weight:600">Planetário Itinerante / Circuito de Ciências</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px">Membro da Equipe · 2023–2024</div>
+          </div>
+          <div style="border-left:2px solid rgba(255,165,0,0.2);padding-left:14px">
+            <div style="font-size:13px;font-weight:600">TALK2U English Club</div>
+            <div style="font-size:11px;color:var(--text-muted);margin-top:2px">Monitor Voluntário · 2022–2023 — Suporte pedagógico e conversação em inglês</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact-section" id="contact">
+  <div class="contact-card">
+    <h2>Vamos trabalhar juntos?</h2>
+    <p id="contactDesc">Estou aberto a oportunidades de estágio, projetos colaborativos e novas experiências. Vamos conversar!</p>
+    <div class="contact-links">
+      <a class="contact-link" id="githubLink" href="https://github.com/anabosouza1218-oss" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+        GitHub
+      </a>
+      <a class="contact-link" id="linkedinLink" href="https://www.linkedin.com/in/ana-beatriz-oliveira-a22928397" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        LinkedIn
+      </a>
+      <a class="contact-link" id="whatsappLink" href="https://wa.me/5568992547857" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <a class="contact-link" id="emailLink" href="mailto:anabosouza1218@gmail.com">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Email
+      </a>
+    </div>
+    <button class="btn-outline" style="margin-top:20px;font-size:13px" onclick="openEditContact()">✏️ Editar contatos</button>
+  </div>
+</section>
+
+<footer>
+  <span id="footerName">Tomas Oliveira</span> — feito com ☕ e muito código
+</footer>
+
+<div class="modal-overlay" id="previewModal" onclick="closePreview(event)">
+  <div class="modal-inner">
+    <div class="modal-header">
+      <div>
+        <div class="modal-title" id="modalTitle">Preview</div>
+        <div class="modal-url" id="modalUrl"></div>
+      </div>
+      <button class="modal-close" onclick="closePreviewDirect()">✕</button>
+    </div>
+    <div class="modal-iframe-wrap">
+      <div class="modal-loading" id="modalLoading"><div class="spinner"></div></div>
+      <iframe id="modalIframe" onload="document.getElementById('modalLoading').style.opacity='0';setTimeout(()=>document.getElementById('modalLoading').style.display='none',300)"></iframe>
+    </div>
+  </div>
+</div>
+
+<div class="edit-modal" id="editHeroModal">
+  <div class="edit-form">
+    <h3>Editar Hero</h3>
+    <div class="form-group"><label>Seu nome</label><input id="eHeroName" placeholder="João Silva"/></div>
+    <div class="form-group"><label>Nav / logo text</label><input id="eNavName" placeholder="dev.js"/></div>
+    <div class="form-group"><label>Descrição</label><textarea id="eHeroDesc"></textarea></div>
+    <div class="form-actions">
+      <button class="btn-sm btn-sm-outline" onclick="closeModal('editHeroModal')">Cancelar</button>
+      <button class="btn-sm btn-sm-primary" onclick="saveHero()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="edit-modal" id="editAboutModal">
+  <div class="edit-form">
+    <h3>Editar Sobre & Stats</h3>
+    <div class="form-group"><label>Título</label><input id="eAboutTitle"/></div>
+    <div class="form-group"><label>Parágrafo 1</label><textarea id="eAboutP1"></textarea></div>
+    <div class="form-group"><label>Parágrafo 2</label><textarea id="eAboutP2"></textarea></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="form-group"><label>Anos exp.</label><input id="eStatYears" placeholder="3+"/></div>
+      <div class="form-group"><label>Projetos</label><input id="eStatProjects" placeholder="20+"/></div>
+      <div class="form-group"><label>Commits</label><input id="eStatCommits" placeholder="500+"/></div>
+      <div class="form-group"><label>Cafés</label><input id="eStatCoffee" placeholder="∞"/></div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-sm btn-sm-outline" onclick="closeModal('editAboutModal')">Cancelar</button>
+      <button class="btn-sm btn-sm-primary" onclick="saveAbout()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="edit-modal" id="editContactModal">
+  <div class="edit-form">
+    <h3>Editar Contatos</h3>
+    <div class="form-group"><label>GitHub URL</label><input id="eGithub" placeholder="https://github.com/usuario"/></div>
+    <div class="form-group"><label>LinkedIn URL</label><input id="eLinkedin" placeholder="https://linkedin.com/in/usuario"/></div>
+    <div class="form-group"><label>Email</label><input id="eEmail" placeholder="voce@email.com"/></div>
+    <div class="form-group"><label>Descrição contato</label><textarea id="eContactDesc"></textarea></div>
+    <div class="form-actions">
+      <button class="btn-sm btn-sm-outline" onclick="closeModal('editContactModal')">Cancelar</button>
+      <button class="btn-sm btn-sm-primary" onclick="saveContact()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="edit-modal" id="editProjectModal">
+  <div class="edit-form">
+    <h3 id="editProjectTitle">Adicionar Projeto</h3>
+    <div class="form-group"><label>Nome do projeto</label><input id="eProjName" placeholder="Meu App"/></div>
+    <div class="form-group"><label>Descrição</label><textarea id="eProjDesc" placeholder="O que esse projeto faz..."></textarea></div>
+    <div class="form-group"><label>GitHub Pages URL (live preview)</label><input id="eProjUrl" placeholder="https://usuario.github.io/projeto"/></div>
+    <div class="form-group"><label>Repositório GitHub</label><input id="eProjRepo" placeholder="https://github.com/usuario/projeto"/></div>
+    <div class="form-group"><label>Tags (separadas por vírgula)</label><input id="eProjTags" placeholder="React, TypeScript, API"/></div>
+    <div class="form-actions">
+      <button class="btn-sm btn-sm-outline" onclick="closeModal('editProjectModal')">Cancelar</button>
+      <button class="btn-sm btn-sm-primary" onclick="saveProject()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let projects=[
+  {id:1,name:"Praça de Alimentação Laagos",desc:"Sistema web completo de gestão para praça de alimentação com autenticação, painel administrativo e CRUD de produtos. Desenvolvido com HTML, CSS, JavaScript, PHP e MySQL.",url:"",repo:"https://github.com/anabosouza1218-oss",tags:["PHP","MySQL","HTML","CSS","JavaScript"]},
+  {id:2,name:"MoveAcre",desc:"Plataforma web de gestão de doações e urgências com React no frontend e Python (Flask) no backend, integrada ao Supabase. Conta com autenticação, painel admin e cadastro de doadores.",url:"",repo:"https://github.com/anabosouza1218-oss",tags:["React","Python","Flask","Supabase"]}
+];
+let editingProjectId=null;
+
+function renderProjects(){
+  const grid=document.getElementById('projectsGrid');
+  grid.innerHTML='';
+  projects.forEach(p=>{
+    const hasUrl=p.url&&p.url.trim()!=='';
+    const card=document.createElement('div');
+    card.className='project-card';
+    card.innerHTML=`
+      <div class="card-preview-wrap">
+        ${hasUrl?`
+          <iframe src="${p.url}" loading="lazy" title="${p.name}" style="width:200%;height:200%;transform:scale(0.5);transform-origin:top left;pointer-events:none"></iframe>
+          <div class="iframe-overlay" onclick="openPreview('${p.url}','${p.name}')">
+            <button class="open-btn">🚀 Abrir preview</button>
+          </div>
+        `:`
+          <div class="no-preview">
+            <div class="no-preview-icon">🔗</div>
+            <span>Adicione um GitHub Pages URL</span>
+            <button class="btn-sm btn-sm-outline" style="font-size:11px;padding:5px 12px;margin-top:4px" onclick="openEditProject(${p.id})">Editar projeto</button>
+          </div>
+        `}
+      </div>
+      <div class="card-body">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div class="card-title">${p.name}</div>
+          <button style="background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:16px;padding:0 0 0 8px;line-height:1" onclick="openEditProject(${p.id})" title="Editar">✏️</button>
+        </div>
+        <div class="card-desc">${p.desc}</div>
+        <div class="card-tags">${p.tags.map(t=>`<span class="card-tag">${t}</span>`).join('')}</div>
+        <div class="card-links">
+          ${p.repo?`<a class="card-link" href="${p.repo}" target="_blank"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg> Repositório</a>`:''}
+          ${hasUrl?`<a class="card-link" href="${p.url}" target="_blank"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Live Demo</a>`:''}
+        </div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+  const addBtn=document.createElement('button');
+  addBtn.className='add-project-btn';
+  addBtn.onclick=()=>openEditProject(null);
+  addBtn.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span style="font-size:14px">Adicionar projeto</span>`;
+  grid.appendChild(addBtn);
+}
+
+function openPreview(url,name){
+  const m=document.getElementById('previewModal');
+  document.getElementById('modalTitle').textContent=name;
+  document.getElementById('modalUrl').textContent=url;
+  document.getElementById('modalLoading').style.cssText='position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg2);opacity:1';
+  document.getElementById('modalIframe').src=url;
+  m.classList.add('active');
+}
+function closePreview(e){if(e.target===document.getElementById('previewModal'))closePreviewDirect()}
+function closePreviewDirect(){document.getElementById('previewModal').classList.remove('active');document.getElementById('modalIframe').src=''}
+
+function scrollTo(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+
+function closeModal(id){document.getElementById(id).classList.remove('active')}
+
+function openEditHero(){
+  document.getElementById('eHeroName').value=document.getElementById('heroName').textContent;
+  document.getElementById('eNavName').value=document.getElementById('navName').textContent;
+  document.getElementById('eHeroDesc').value=document.getElementById('heroDesc').textContent;
+  document.getElementById('editHeroModal').classList.add('active');
+}
+function saveHero(){
+  const name=document.getElementById('eHeroName').value||'Seu Nome';
+  document.getElementById('heroName').textContent=name;
+  document.getElementById('navName').textContent=document.getElementById('eNavName').value||'dev.portfolio';
+  document.getElementById('heroDesc').textContent=document.getElementById('eHeroDesc').value;
+  document.getElementById('footerName').textContent=document.getElementById('eNavName').value||'dev.portfolio';
+  closeModal('editHeroModal');
+}
+
+function openEditAbout(){
+  document.getElementById('eAboutTitle').value=document.getElementById('aboutTitle').textContent;
+  document.getElementById('eAboutP1').value=document.getElementById('aboutP1').textContent;
+  document.getElementById('eAboutP2').value=document.getElementById('aboutP2').textContent;
+  document.getElementById('eStatYears').value=document.getElementById('statYears').textContent;
+  document.getElementById('eStatProjects').value=document.getElementById('statProjects').textContent;
+  document.getElementById('eStatCommits').value=document.getElementById('statCommits').textContent;
+  document.getElementById('eStatCoffee').value=document.getElementById('statCoffee').textContent;
+  document.getElementById('editAboutModal').classList.add('active');
+}
+function saveAbout(){
+  document.getElementById('aboutTitle').textContent=document.getElementById('eAboutTitle').value;
+  document.getElementById('aboutP1').textContent=document.getElementById('eAboutP1').value;
+  document.getElementById('aboutP2').textContent=document.getElementById('eAboutP2').value;
+  document.getElementById('statYears').textContent=document.getElementById('eStatYears').value||'3+';
+  document.getElementById('statProjects').textContent=document.getElementById('eStatProjects').value||'20+';
+  document.getElementById('statCommits').textContent=document.getElementById('eStatCommits').value||'500+';
+  document.getElementById('statCoffee').textContent=document.getElementById('eStatCoffee').value||'∞';
+  closeModal('editAboutModal');
+}
+
+function openEditContact(){
+  document.getElementById('eGithub').value=document.getElementById('githubLink').href==='#'?'':document.getElementById('githubLink').href;
+  document.getElementById('eLinkedin').value=document.getElementById('linkedinLink').href==='#'?'':document.getElementById('linkedinLink').href;
+  const em=document.getElementById('emailLink').href;
+  document.getElementById('eEmail').value=em.startsWith('mailto:')?em.replace('mailto:',''):em;
+  document.getElementById('eContactDesc').value=document.getElementById('contactDesc').textContent;
+  document.getElementById('editContactModal').classList.add('active');
+}
+function saveContact(){
+  const gh=document.getElementById('eGithub').value;
+  const li=document.getElementById('eLinkedin').value;
+  const em=document.getElementById('eEmail').value;
+  if(gh)document.getElementById('githubLink').href=gh;
+  if(li)document.getElementById('linkedinLink').href=li;
+  if(em)document.getElementById('emailLink').href='mailto:'+em;
+  document.getElementById('contactDesc').textContent=document.getElementById('eContactDesc').value;
+  closeModal('editContactModal');
+}
+
+function openEditProject(id){
+  editingProjectId=id;
+  if(id===null){
+    document.getElementById('editProjectTitle').textContent='Adicionar Projeto';
+    document.getElementById('eProjName').value='';
+    document.getElementById('eProjDesc').value='';
+    document.getElementById('eProjUrl').value='';
+    document.getElementById('eProjRepo').value='';
+    document.getElementById('eProjTags').value='';
+  } else {
+    const p=projects.find(x=>x.id===id);
+    document.getElementById('editProjectTitle').textContent='Editar Projeto';
+    document.getElementById('eProjName').value=p.name;
+    document.getElementById('eProjDesc').value=p.desc;
+    document.getElementById('eProjUrl').value=p.url;
+    document.getElementById('eProjRepo').value=p.repo;
+    document.getElementById('eProjTags').value=p.tags.join(', ');
+  }
+  document.getElementById('editProjectModal').classList.add('active');
+}
+function saveProject(){
+  const name=document.getElementById('eProjName').value||'Novo Projeto';
+  const desc=document.getElementById('eProjDesc').value;
+  const url=document.getElementById('eProjUrl').value;
+  const repo=document.getElementById('eProjRepo').value;
+  const tags=document.getElementById('eProjTags').value.split(',').map(t=>t.trim()).filter(Boolean);
+  if(editingProjectId===null){
+    projects.push({id:Date.now(),name,desc,url,repo,tags});
+  } else {
+    const idx=projects.findIndex(x=>x.id===editingProjectId);
+    projects[idx]={...projects[idx],name,desc,url,repo,tags};
+  }
+  renderProjects();
+  closeModal('editProjectModal');
+}
+
+renderProjects();
+</script>
+</body>
+</html>
