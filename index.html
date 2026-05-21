@@ -533,7 +533,7 @@ body.admin-mode .admin-only{display:inline-flex!important}
   </div>
 </section>
 
-<footer>
+<footer id="footer">
   <span id="footerName">Tomas Oliveira</span> — feito com ☕ e muito código
 </footer>
 
@@ -690,14 +690,28 @@ const io=new IntersectionObserver(entries=>{
 },{threshold:.3});
 document.querySelectorAll('#skills').forEach(s=>io.observe(s));
 
-// ── admin trigger (Ctrl+Shift+A) ────────────────────────────
+// ── admin trigger (Ctrl+Shift+A no desktop, 5 toques no footer no mobile) ──
 document.addEventListener('keydown',e=>{
   if(e.ctrlKey&&e.shiftKey&&e.key==='A'){
     if(adminUnlocked){lockAdmin();}
     else{
       const m=document.getElementById('adminLoginModal');
-      m.classList.add('active');
-      m._cb=()=>{};
+      m.classList.add('active');m._cb=()=>{};
+      document.getElementById('adminPassInput').value='';
+      setTimeout(()=>document.getElementById('adminPassInput').focus(),100);
+    }
+  }
+});
+let footerTaps=0,footerTimer=null;
+document.getElementById('footer').addEventListener('click',()=>{
+  footerTaps++;
+  clearTimeout(footerTimer);
+  footerTimer=setTimeout(()=>footerTaps=0,1500);
+  if(footerTaps>=5){
+    footerTaps=0;
+    if(!adminUnlocked){
+      const m=document.getElementById('adminLoginModal');
+      m.classList.add('active');m._cb=()=>{};
       document.getElementById('adminPassInput').value='';
       setTimeout(()=>document.getElementById('adminPassInput').focus(),100);
     }
