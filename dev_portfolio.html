@@ -690,6 +690,20 @@ const io=new IntersectionObserver(entries=>{
 },{threshold:.3});
 document.querySelectorAll('#skills').forEach(s=>io.observe(s));
 
+// ── admin trigger (Ctrl+Shift+A) ────────────────────────────
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey&&e.shiftKey&&e.key==='A'){
+    if(adminUnlocked){lockAdmin();}
+    else{
+      const m=document.getElementById('adminLoginModal');
+      m.classList.add('active');
+      m._cb=()=>{};
+      document.getElementById('adminPassInput').value='';
+      setTimeout(()=>document.getElementById('adminPassInput').focus(),100);
+    }
+  }
+});
+
 // ── admin auth ───────────────────────────────────────────────
 const ADMIN_HASH='76d378736f4e3f94c81a22e670cd6d57664e6a0349a97da007fdbe53abee7fa7';
 let adminUnlocked=false;
@@ -733,7 +747,7 @@ let projects=[
 ];
 let editingProjectId=null;
 
-function thumbUrl(url){return`https://image.thum.io/get/width/600/crop/400/noanimate/${url}`}
+function thumbUrl(url){return`https://api.screenshotmachine.com?url=${encodeURIComponent(url)}&dimension=1024x640&format=jpg&cacheLimit=0&delay=2000`}
 
 function renderProjects(){
   const grid=document.getElementById('projectsGrid');
