@@ -747,7 +747,7 @@ let projects=[
 ];
 let editingProjectId=null;
 
-function thumbUrl(url){return`https://api.screenshotmachine.com?url=${encodeURIComponent(url)}&dimension=1024x640&format=jpg&cacheLimit=0&delay=2000`}
+function thumbUrl(url){return`https://s0.wordpress.com/mshots/v1/${encodeURIComponent(url)}?w=800&h=500`}
 
 function renderProjects(){
   const grid=document.getElementById('projectsGrid');
