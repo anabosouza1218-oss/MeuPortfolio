@@ -2,7 +2,7 @@
 
 Portfólio pessoal desenvolvido em HTML, CSS e JavaScript puro. Single-page, sem frameworks, sem dependências externas.
 
-**Live:** [anabosouza1218-oss.github.io/MeuPortfolio](https://anabosouza1218-oss.github.io/MeuPortfolio/)
+**Live:** [tomasouza2007.github.io/MeuPortfolio](https://tomasouza2007.github.io/MeuPortfolio/)
 
 ---
 
