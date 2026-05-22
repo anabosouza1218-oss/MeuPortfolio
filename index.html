@@ -335,11 +335,18 @@ body.admin-mode .admin-only{display:inline-flex!important}
     <span class="line2" id="heroName">Tomas Oliveira</span>
   </h1>
   <p class="hero-sub" id="heroDesc">
-    Desenvolvedor <em>Full Stack</em> em formação — transformo ideias em
-    soluções web funcionais com HTML, CSS, JavaScript, PHP e Python.
+    Desenvolvedor <em>Full Stack</em> em formação e criador de conteúdo digital — transformo ideias em
+    soluções web e em histórias que conectam pessoas.
   </p>
   <div class="hero-actions">
-    <button class="btn-grad" onclick="goTo('projects')">Ver Projetos</button>
+    <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--grad);color:#fff;border:none;padding:14px 32px;border-radius:999px;font-size:14px;font-weight:500;text-decoration:none;transition:transform .2s,box-shadow .2s;box-shadow:0 0 0 rgba(124,92,252,0)" onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 40px rgba(124,92,252,.4)'" onmouseout="this.style.transform='';this.style.boxShadow=''">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+      Portfólio Dev
+    </a>
+    <a href="social.html" style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--txt);border:1px solid var(--bdrh);padding:14px 32px;border-radius:999px;font-size:14px;font-weight:500;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(124,92,252,.08)'" onmouseout="this.style.background='transparent'">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor"/></svg>
+      Portfólio Social Mídia
+    </a>
     <button class="btn-ghost admin-only" onclick="openEditHero()">✏️ Editar</button>
   </div>
   <div class="scroll-hint">
@@ -460,16 +467,6 @@ body.admin-mode .admin-only{display:inline-flex!important}
         <p id="aboutP1">Sou estudante de <strong>Bacharelado em Sistemas de Informação</strong> e Técnico em Informática para Internet pelo IFAC. Atualmente trabalho como <strong>Jovem Aprendiz — Programador Full Stack no SENAI</strong>, onde aplico na prática o que aprendo todos os dias.</p>
         <p id="aboutP2">Tenho experiência com projetos web completos, desde o banco de dados até a interface. Além do código, já atuei como monitor voluntário de inglês e em projetos de extensão científica, o que me deu uma visão ampla sobre ensino, comunicação e trabalho em equipe.</p>
         <button class="btn-ghost admin-only" style="font-size:12px;padding:8px 20px;margin-top:8px" onclick="openEditAbout()">✏️ Editar texto</button>
-        <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap">
-          <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--grad);color:#fff;border:none;padding:12px 24px;border-radius:999px;font-size:13px;font-weight:500;text-decoration:none;transition:opacity .2s" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-            Portfólio Dev
-          </a>
-          <a href="social.html" style="display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--txt);border:1px solid var(--bdrh);padding:12px 24px;border-radius:999px;font-size:13px;font-weight:500;text-decoration:none;transition:all .2s" onmouseover="this.style.background='rgba(124,92,252,.08)'" onmouseout="this.style.background='transparent'">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor"/></svg>
-            Portfólio Social Mídia
-          </a>
-        </div>
       </div>
     </div>
   </div>
@@ -621,12 +618,16 @@ body.admin-mode .admin-only{display:inline-flex!important}
 <div class="edit-modal" id="adminLoginModal">
   <div class="edit-form" style="max-width:360px">
     <h3>🔐 Área Restrita</h3>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:20px">Digite a senha de administrador para editar o portfólio.</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:20px">Entre com sua conta de administrador.</p>
+    <div class="form-group">
+      <label>Email</label>
+      <input id="adminEmail" type="email" placeholder="seu@email.com" onkeydown="if(event.key==='Enter')document.getElementById('adminPass').focus()"/>
+    </div>
     <div class="form-group">
       <label>Senha</label>
-      <input id="adminPassInput" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')submitAdminLogin()"/>
+      <input id="adminPass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')submitAdminLogin()"/>
     </div>
-    <div id="adminPassError" style="display:none;font-size:12px;color:#f87171;margin-top:-8px;margin-bottom:12px">Senha incorreta.</div>
+    <div id="adminPassError" style="display:none;font-size:12px;color:#f87171;margin-top:-8px;margin-bottom:12px"></div>
     <div class="form-actions">
       <button class="btn-sm btn-sm-outline" onclick="closeModal('adminLoginModal')">Cancelar</button>
       <button class="btn-sm btn-sm-primary" onclick="submitAdminLogin()">Entrar</button>
@@ -643,7 +644,12 @@ body.admin-mode .admin-only{display:inline-flex!important}
   <button onclick="lockAdmin()" style="background:none;border:none;color:var(--muted);cursor:none;font-size:12px;padding:0;margin-left:4px">Sair</button>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+// ── Supabase ─────────────────────────────────────────────────
+const SUPA_URL='https://cihxnvsytjpeinrenprg.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpaHhudnN5dGpwZWlucmVucHJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0ODkwNTMsImV4cCI6MjA5NTA2NTA1M30.1DhTWIBckfNBfPHN9ZYvLMbfam0U0CjFYiJCodSx7u8';
+const supa=supabase.createClient(SUPA_URL,SUPA_KEY);
 // ── cursor ──────────────────────────────────────────────────
 const cur=document.getElementById('cur'),cur2=document.getElementById('cur2');
 document.addEventListener('mousemove',e=>{
@@ -728,36 +734,39 @@ document.getElementById('footer').addEventListener('click',()=>{
   }
 });
 
-// ── admin auth ───────────────────────────────────────────────
-const ADMIN_HASH='76d378736f4e3f94c81a22e670cd6d57664e6a0349a97da007fdbe53abee7fa7';
+// ── admin auth (Supabase) ────────────────────────────────────
 let adminUnlocked=false;
 
-async function sha256(msg){
-  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(msg));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
 function requireAdmin(cb){
   if(adminUnlocked){cb();return;}
   const m=document.getElementById('adminLoginModal');
   m.classList.add('active');m._cb=cb;
-  document.getElementById('adminPassInput').value='';
-  setTimeout(()=>document.getElementById('adminPassInput').focus(),100);
+  document.getElementById('adminEmail').value='';
+  document.getElementById('adminPass').value='';
+  setTimeout(()=>document.getElementById('adminEmail').focus(),100);
 }
 async function submitAdminLogin(){
-  const h=await sha256(document.getElementById('adminPassInput').value);
-  if(h===ADMIN_HASH){
-    adminUnlocked=true;closeModal('adminLoginModal');
-    document.getElementById('adminLoginModal')._cb?.();
-    document.getElementById('adminBadge').style.display='flex';
-    document.body.classList.add('admin-mode');
-    renderProjects();
-  } else {
-    document.getElementById('adminPassError').style.display='block';
-    document.getElementById('adminPassInput').value='';
-    document.getElementById('adminPassInput').focus();
+  const email=document.getElementById('adminEmail').value.trim();
+  const pass=document.getElementById('adminPass').value;
+  const err=document.getElementById('adminPassError');
+  err.style.display='none';
+  const{error}=await supa.auth.signInWithPassword({email,password:pass});
+  if(error){
+    err.textContent='Email ou senha incorretos.';
+    err.style.display='block';
+    document.getElementById('adminPass').value='';
+    document.getElementById('adminPass').focus();
+    return;
   }
+  adminUnlocked=true;
+  closeModal('adminLoginModal');
+  document.getElementById('adminLoginModal')._cb?.();
+  document.getElementById('adminBadge').style.display='flex';
+  document.body.classList.add('admin-mode');
+  renderProjects();
 }
 function lockAdmin(){
+  supa.auth.signOut();
   adminUnlocked=false;
   document.getElementById('adminBadge').style.display='none';
   document.body.classList.remove('admin-mode');
@@ -909,6 +918,13 @@ function saveProject(){
 }
 
 renderProjects();
+
+// ?admin na URL abre o login automaticamente
+if(new URLSearchParams(location.search).has('admin')){
+  const m=document.getElementById('adminLoginModal');
+  m.classList.add('active');m._cb=()=>{};
+  setTimeout(()=>document.getElementById('adminPassInput').focus(),300);
+}
 </script>
 </body>
 </html>
