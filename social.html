@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<title>Tomas Oliveira — Social Mídia</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --p:#7c5cfc;--pl:#a78bfa;--pd:#5b21b6;
+  --bg:#080b14;--bg2:#0d1120;--bg3:#111827;
+  --surf:rgba(255,255,255,0.03);
+  --bdr:rgba(255,255,255,0.07);--bdrh:rgba(124,92,252,0.5);
+  --txt:#eeeeff;--muted:#6b7a99;--dim:#2d3748;
+  --grad:linear-gradient(135deg,#7c5cfc,#a78bfa);
+  --pink:linear-gradient(135deg,#ec4899,#f97316);
+}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--txt);overflow-x:hidden}
+h1,h2,h3,h4{font-family:'Syne',sans-serif}
+
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(8,11,20,0.7);backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--bdr)}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-back{display:flex;align-items:center;gap:8px;color:var(--muted);
+  font-size:13px;text-decoration:none;transition:color .2s;cursor:pointer}
+.nav-back:hover{color:var(--txt)}
+.nav-back svg{width:16px;height:16px}
+
+.hero{min-height:55vh;display:flex;align-items:center;justify-content:center;
+  flex-direction:column;text-align:center;padding:140px 40px 60px;
+  position:relative;z-index:1}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;
+  background:rgba(236,72,153,0.1);border:1px solid rgba(236,72,153,0.25);
+  padding:6px 18px;border-radius:999px;font-size:12px;color:#f472b6;
+  margin-bottom:28px;letter-spacing:1px;text-transform:uppercase}
+.dot-pink{width:6px;height:6px;border-radius:50%;background:#f472b6;
+  box-shadow:0 0 8px #f472b6;animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{font-size:clamp(40px,6vw,72px);font-weight:800;line-height:1.05;
+  letter-spacing:-2px;margin-bottom:16px}
+.hero h1 span{background:var(--pink);-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:16px;color:var(--muted);max-width:480px;line-height:1.8;font-weight:300}
+
+.wrapper{max-width:1120px;margin:0 auto;padding:80px 40px;position:relative;z-index:1}
+.sec-label{font-size:11px;letter-spacing:3px;text-transform:uppercase;
+  color:#f472b6;margin-bottom:14px;display:block}
+.sec-title{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-1.5px;
+  line-height:1.1;margin-bottom:40px}
+
+/* grid de vídeos */
+.videos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:24px}
+.video-card{background:var(--surf);border:1px solid var(--bdr);border-radius:20px;
+  overflow:hidden;transition:all .3s}
+.video-card:hover{border-color:rgba(236,72,153,0.4);transform:translateY(-4px);
+  box-shadow:0 20px 50px rgba(236,72,153,.1)}
+.video-thumb{position:relative;padding-top:56.25%;background:rgba(236,72,153,.05);
+  border-bottom:1px solid var(--bdr);overflow:hidden;cursor:pointer}
+.video-thumb video,.video-thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.video-thumb .play-overlay{position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;background:rgba(8,11,20,0);transition:background .3s}
+.video-card:hover .play-overlay{background:rgba(8,11,20,.5)}
+.play-btn-pink{width:52px;height:52px;border-radius:50%;background:var(--pink);
+  border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;
+  align-items:center;justify-content:center;opacity:0;transform:scale(.8);
+  transition:all .3s}
+.video-card:hover .play-btn-pink{opacity:1;transform:scale(1)}
+.video-body{padding:20px}
+.video-title{font-size:15px;font-weight:700;margin-bottom:6px;letter-spacing:-.3px}
+.video-desc{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.video-date{font-size:11px;color:var(--dim);letter-spacing:.5px}
+.video-actions{display:flex;gap:8px;margin-top:12px}
+.video-actions button{font-size:11px;padding:5px 12px;border-radius:8px;
+  cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;border:1px solid var(--bdr);
+  background:transparent;color:var(--muted)}
+.video-actions button:hover{border-color:var(--bdrh);color:var(--pl)}
+.video-actions .del-btn:hover{border-color:rgba(239,68,68,.4);color:#f87171}
+
+.empty-state{text-align:center;padding:80px 20px;color:var(--muted)}
+.empty-state svg{width:48px;height:48px;margin:0 auto 16px;opacity:.3;display:block}
+.empty-state p{font-size:14px}
+
+/* upload area */
+.upload-zone{border:2px dashed var(--bdr);border-radius:20px;padding:48px;
+  text-align:center;cursor:pointer;transition:all .25s;color:var(--muted);
+  background:transparent;position:relative}
+.upload-zone:hover,.upload-zone.drag{border-color:rgba(236,72,153,.5);
+  color:#f472b6;background:rgba(236,72,153,.04)}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-zone svg{width:36px;height:36px;margin:0 auto 12px;display:block;opacity:.5}
+.upload-zone p{font-size:14px;margin-bottom:4px}
+.upload-zone span{font-size:12px;color:var(--dim)}
+
+/* progress */
+.progress-wrap{margin-top:16px;display:none}
+.progress-bar-bg{height:4px;background:var(--bdr);border-radius:999px;overflow:hidden}
+.progress-bar{height:4px;background:var(--pink);border-radius:999px;width:0;transition:width .3s}
+.progress-label{font-size:12px;color:var(--muted);margin-top:6px;text-align:center}
+
+/* modal */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.88);
+  z-index:200;display:none;align-items:center;justify-content:center;
+  padding:20px;backdrop-filter:blur(10px)}
+.modal-overlay.active{display:flex}
+.modal-video-inner{background:var(--bg2);border:1px solid var(--bdr);
+  border-radius:20px;width:100%;max-width:900px;overflow:hidden}
+.modal-video-header{padding:16px 20px;border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;justify-content:space-between}
+.modal-video-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700}
+.modal-close{background:var(--surf);border:1px solid var(--bdr);color:var(--muted);
+  width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;transition:all .2s}
+.modal-close:hover{border-color:var(--bdrh);color:var(--txt)}
+.modal-video-body{padding:0}
+.modal-video-body video{width:100%;display:block;max-height:70vh}
+
+/* edit modal */
+.edit-modal{position:fixed;inset:0;background:rgba(0,0,0,.88);
+  z-index:300;display:none;align-items:center;justify-content:center;
+  padding:20px;backdrop-filter:blur(10px)}
+.edit-modal.active{display:flex}
+.edit-form{background:var(--bg2);border:1px solid var(--bdr);
+  border-radius:22px;padding:36px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
+.edit-form h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;margin-bottom:24px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:11px;color:var(--muted);margin-bottom:6px;
+  text-transform:uppercase;letter-spacing:1px}
+.form-group input,.form-group textarea{width:100%;background:rgba(255,255,255,.04);
+  border:1px solid var(--bdr);border-radius:10px;padding:10px 14px;color:var(--txt);
+  font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--bdrh)}
+.form-group textarea{resize:vertical;min-height:80px}
+.form-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:24px}
+.btn-sm{padding:9px 20px;border-radius:10px;font-size:13px;font-weight:500;
+  cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+.btn-sm-outline{background:transparent;border:1px solid var(--bdr);color:var(--muted)}
+.btn-sm-outline:hover{border-color:var(--bdrh)}
+.btn-sm-primary{background:var(--grad);border:none;color:#fff}
+.btn-sm-primary:hover{opacity:.85}
+
+/* admin badge */
+.admin-only{display:none!important}
+body.admin-mode .admin-only{display:inline-flex!important}
+
+/* btn styles */
+.btn-pink{background:var(--pink);color:#fff;border:none;padding:12px 28px;
+  border-radius:999px;font-size:14px;font-weight:500;cursor:pointer;
+  transition:opacity .2s,transform .2s;font-family:'DM Sans',sans-serif}
+.btn-pink:hover{opacity:.85;transform:translateY(-2px)}
+.btn-ghost{background:transparent;color:var(--txt);border:1px solid var(--bdrh);
+  padding:12px 28px;border-radius:999px;font-size:14px;font-weight:500;
+  cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.btn-ghost:hover{background:rgba(124,92,252,.08)}
+
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+.spinner{width:20px;height:20px;border:2px solid var(--bdr);
+  border-top-color:var(--p);border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
+
+footer{text-align:center;padding:28px;border-top:1px solid var(--bdr);
+  font-size:12px;color:var(--dim);letter-spacing:.5px;position:relative;z-index:1}
+
+@media(max-width:768px){
+  nav{padding:14px 20px}
+  .hero{padding:110px 20px 50px}
+  .wrapper{padding:60px 20px}
+  .videos-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<canvas id="bgCanvas"></canvas>
+
+<nav>
+  <a class="nav-logo" href="index.html">
+    <svg width="34" height="34" viewBox="0 0 34 34" fill="none">
+      <rect width="34" height="34" rx="9" fill="url(#ng)"/>
+      <rect x="6" y="8" width="10" height="2.5" rx="1.2" fill="white"/>
+      <rect x="10" y="8" width="2.5" height="13" rx="1.2" fill="white"/>
+      <rect x="19" y="8" width="9" height="2.5" rx="1.2" fill="white"/>
+      <rect x="19" y="18.5" width="9" height="2.5" rx="1.2" fill="white"/>
+      <rect x="19" y="8" width="2.5" height="13" rx="1.2" fill="white"/>
+      <rect x="25.5" y="8" width="2.5" height="13" rx="1.2" fill="white"/>
+      <defs><linearGradient id="ng" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="#5b21b6"/><stop offset="100%" stop-color="#a78bfa"/>
+      </linearGradient></defs>
+    </svg>
+  </a>
+  <a class="nav-back" href="index.html">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+    Voltar ao Portfólio Dev
+  </a>
+  <button class="btn-pink admin-only" onclick="openUploadModal()" style="font-size:13px;padding:10px 22px">+ Upload</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">
+    <span class="dot-pink"></span>
+    Criador de Conteúdo
+  </div>
+  <h1>Portfólio <span>Social Mídia</span></h1>
+  <p>Vídeos, projetos e conteúdo criativo. Uma outra faceta do meu trabalho.</p>
+</section>
+
+<section>
+  <div class="wrapper">
+    <span class="sec-label">Conteúdo</span>
+    <h2 class="sec-title">Meus Vídeos</h2>
+    <div class="videos-grid" id="videosGrid">
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="spinner"></div>
+        <p style="margin-top:16px">Carregando vídeos...</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="footer">
+  <span>Tomas Oliveira</span> — feito com ☕ e muito código
+</footer>
+
+<!-- video player modal -->
+<div class="modal-overlay" id="videoModal" onclick="closeVideoModal(event)">
+  <div class="modal-video-inner">
+    <div class="modal-video-header">
+      <div class="modal-video-title" id="videoModalTitle">Vídeo</div>
+      <button class="modal-close" onclick="closeVideoModalDirect()">✕</button>
+    </div>
+    <div class="modal-video-body">
+      <video id="modalVideoEl" controls playsinline style="width:100%;display:block;max-height:70vh"></video>
+    </div>
+  </div>
+</div>
+
+<!-- upload modal -->
+<div class="edit-modal" id="uploadModal">
+  <div class="edit-form">
+    <h3>📤 Upload de Vídeo</h3>
+    <div class="form-group">
+      <label>Título</label>
+      <input id="uTitle" placeholder="Nome do vídeo"/>
+    </div>
+    <div class="form-group">
+      <label>Descrição</label>
+      <textarea id="uDesc" placeholder="Sobre esse vídeo..."></textarea>
+    </div>
+    <div class="form-group">
+      <label>Arquivo de vídeo</label>
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="uFile" accept="video/*" onchange="handleFileSelect(this)"/>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p id="uploadZoneText">Clique ou arraste o vídeo aqui</p>
+        <span>MP4, MOV, WebM — máx. 500MB</span>
+      </div>
+      <div class="progress-wrap" id="progressWrap">
+        <div class="progress-bar-bg"><div class="progress-bar" id="progressBar"></div></div>
+        <div class="progress-label" id="progressLabel">0%</div>
+      </div>
+    </div>
+    <div class="form-actions">
+      <button class="btn-sm btn-sm-outline" onclick="closeEditModal('uploadModal')">Cancelar</button>
+      <button class="btn-sm btn-sm-primary" id="uploadBtn" onclick="uploadVideo()">Enviar</button>
+    </div>
+  </div>
+</div>
+
+<!-- edit video modal -->
+<div class="edit-modal" id="editVideoModal">
+  <div class="edit-form">
+    <h3>✏️ Editar Vídeo</h3>
+    <div class="form-group"><label>Título</label><input id="evTitle"/></div>
+    <div class="form-group"><label>Descrição</label><textarea id="evDesc"></textarea></div>
+    <div class="form-actions">
+      <button class="btn-sm btn-sm-outline" onclick="closeEditModal('editVideoModal')">Cancelar</button>
+      <button class="btn-sm btn-sm-primary" onclick="saveVideoEdit()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- admin login -->
+<div class="edit-modal" id="adminLoginModal">
+  <div class="edit-form" style="max-width:360px">
+    <h3>🔐 Área Restrita</h3>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:20px">Digite a senha de administrador.</p>
+    <div class="form-group">
+      <label>Senha</label>
+      <input id="adminPassInput" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')submitAdminLogin()"/>
+    </div>
+    <div id="adminPassError" style="display:none;font-size:12px;color:#f87171;margin-top:-8px;margin-bottom:12px">Senha incorreta.</div>
+    <div class="form-actions">
+      <button class="btn-sm btn-sm-outline" onclick="closeEditModal('adminLoginModal')">Cancelar</button>
+      <button class="btn-sm btn-sm-primary" onclick="submitAdminLogin()">Entrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- admin badge -->
+<div id="adminBadge" style="display:none;position:fixed;bottom:24px;right:24px;z-index:150;
+  background:rgba(124,92,252,.15);border:1px solid rgba(124,92,252,.4);
+  border-radius:999px;padding:8px 18px;font-size:12px;color:#a78bfa;
+  align-items:center;gap:8px;backdrop-filter:blur(12px)">
+  🔓 Modo admin
+  <button onclick="lockAdmin()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:12px;padding:0;margin-left:4px">Sair</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ── Supabase ─────────────────────────────────────────────────
+const SUPA_URL='https://cihxnvsytjpeinrenprg.supabase.co';
+const SUPA_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpaHhudnN5dGpwZWlucmVucHJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0ODkwNTMsImV4cCI6MjA5NTA2NTA1M30.1DhTWIBckfNBfPHN9ZYvLMbfam0U0CjFYiJCodSx7u8';
+const supa=supabase.createClient(SUPA_URL,SUPA_KEY);
+
+// ── canvas bg ─────────────────────────────────────────────────
+(function(){
+  const c=document.getElementById('bgCanvas'),ctx=c.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;init()}
+  function init(){pts=[];const n=Math.floor(W*H/20000);
+    for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,
+      vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.2+.4})}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(236,72,153,.25)';ctx.fill()});
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<110){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
+        ctx.strokeStyle=`rgba(236,72,153,${.08*(1-d/110)})`;ctx.lineWidth=.5;ctx.stroke()}}
+    requestAnimationFrame(draw)}
+  window.addEventListener('resize',resize);resize();draw();
+})();
+
+// ── admin auth ────────────────────────────────────────────────
+const ADMIN_HASH='76d378736f4e3f94c81a22e670cd6d57664e6a0349a97da007fdbe53abee7fa7';
+let adminUnlocked=false;
+
+async function sha256(msg){
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(msg));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function requireAdmin(cb){
+  if(adminUnlocked){cb();return;}
+  const m=document.getElementById('adminLoginModal');
+  m.classList.add('active');m._cb=cb;
+  document.getElementById('adminPassInput').value='';
+  setTimeout(()=>document.getElementById('adminPassInput').focus(),100);
+}
+async function submitAdminLogin(){
+  const h=await sha256(document.getElementById('adminPassInput').value);
+  if(h===ADMIN_HASH){
+    adminUnlocked=true;closeEditModal('adminLoginModal');
+    document.getElementById('adminLoginModal')._cb?.();
+    document.getElementById('adminBadge').style.display='flex';
+    document.body.classList.add('admin-mode');
+  } else {
+    document.getElementById('adminPassError').style.display='block';
+    document.getElementById('adminPassInput').value='';
+    document.getElementById('adminPassInput').focus();
+  }
+}
+function lockAdmin(){
+  adminUnlocked=false;
+  document.getElementById('adminBadge').style.display='none';
+  document.body.classList.remove('admin-mode');
+  renderVideos(cachedVideos);
+}
+
+// Ctrl+Shift+A e 5 toques no footer
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey&&e.shiftKey&&e.key==='A'){
+    if(adminUnlocked)lockAdmin();
+    else{const m=document.getElementById('adminLoginModal');
+      m.classList.add('active');m._cb=()=>{};
+      document.getElementById('adminPassInput').value='';
+      setTimeout(()=>document.getElementById('adminPassInput').focus(),100);}
+  }
+});
+let ftaps=0,ftimer=null;
+document.getElementById('footer').addEventListener('click',()=>{
+  ftaps++;clearTimeout(ftimer);ftimer=setTimeout(()=>ftaps=0,1500);
+  if(ftaps>=5){ftaps=0;if(!adminUnlocked){
+    const m=document.getElementById('adminLoginModal');
+    m.classList.add('active');m._cb=()=>{};
+    document.getElementById('adminPassInput').value='';
+    setTimeout(()=>document.getElementById('adminPassInput').focus(),100);}}
+});
+
+// ── modals ────────────────────────────────────────────────────
+function closeEditModal(id){document.getElementById(id).classList.remove('active')}
+
+function openVideoModal(url,title){
+  document.getElementById('videoModalTitle').textContent=title;
+  document.getElementById('modalVideoEl').src=url;
+  document.getElementById('modalVideoEl').play();
+  document.getElementById('videoModal').classList.add('active');
+}
+function closeVideoModal(e){if(e.target===document.getElementById('videoModal'))closeVideoModalDirect()}
+function closeVideoModalDirect(){
+  document.getElementById('videoModal').classList.remove('active');
+  const v=document.getElementById('modalVideoEl');v.pause();v.src='';
+}
+
+// ── render videos ─────────────────────────────────────────────
+let cachedVideos=[];
+let editingVideoId=null;
+
+function renderVideos(videos){
+  cachedVideos=videos;
+  const grid=document.getElementById('videosGrid');
+  grid.innerHTML='';
+  if(!videos.length){
+    grid.innerHTML=`<div class="empty-state" style="grid-column:1/-1">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
+      <p>Nenhum vídeo ainda.</p>
+    </div>`;
+    return;
+  }
+  videos.forEach(v=>{
+    const card=document.createElement('div');
+    card.className='video-card';
+    const date=new Date(v.created_at).toLocaleDateString('pt-BR',{day:'2-digit',month:'short',year:'numeric'});
+    const thumb=v.thumbnail||'';
+    card.innerHTML=`
+      <div class="video-thumb" onclick="openVideoModal('${v.url}','${v.title.replace(/'/g,"\\'")}')">
+        ${thumb
+          ?`<img src="${thumb}" alt="${v.title}"/>`
+          :`<video src="${v.url}" preload="metadata" muted></video>`}
+        <div class="play-overlay">
+          <button class="play-btn-pink">▶</button>
+        </div>
+      </div>
+      <div class="video-body">
+        <div class="video-title">${v.title}</div>
+        ${v.description?`<div class="video-desc">${v.description}</div>`:''}
+        <div class="video-date">${date}</div>
+        ${adminUnlocked?`<div class="video-actions">
+          <button onclick="openEditVideo('${v.id}','${v.title.replace(/'/g,"\\'")}','${(v.description||'').replace(/'/g,"\\'")}')">✏️ Editar</button>
+          <button class="del-btn" onclick="deleteVideo('${v.id}','${v.url}')">🗑 Deletar</button>
+        </div>`:''}
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+async function loadVideos(){
+  const{data,error}=await supa.from('videos').select('*').order('created_at',{ascending:false});
+  if(error){
+    document.getElementById('videosGrid').innerHTML=`<div class="empty-state" style="grid-column:1/-1"><p>Erro ao carregar vídeos.</p></div>`;
+    return;
+  }
+  renderVideos(data||[]);
+}
+
+// ── upload ────────────────────────────────────────────────────
+function openUploadModal(){requireAdmin(()=>{
+  document.getElementById('uTitle').value='';
+  document.getElementById('uDesc').value='';
+  document.getElementById('uFile').value='';
+  document.getElementById('uploadZoneText').textContent='Clique ou arraste o vídeo aqui';
+  document.getElementById('progressWrap').style.display='none';
+  document.getElementById('progressBar').style.width='0';
+  document.getElementById('uploadBtn').disabled=false;
+  document.getElementById('uploadModal').classList.add('active');
+})}
+
+function handleFileSelect(input){
+  if(input.files[0]){
+    document.getElementById('uploadZoneText').textContent=input.files[0].name;
+  }
+}
+
+// drag & drop
+const zone=document.getElementById('uploadZone');
+zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('drag')});
+zone.addEventListener('dragleave',()=>zone.classList.remove('drag'));
+zone.addEventListener('drop',e=>{
+  e.preventDefault();zone.classList.remove('drag');
+  const f=e.dataTransfer.files[0];
+  if(f&&f.type.startsWith('video/')){
+    document.getElementById('uFile').files=e.dataTransfer.files;
+    document.getElementById('uploadZoneText').textContent=f.name;
+  }
+});
+
+async function uploadVideo(){
+  const title=document.getElementById('uTitle').value.trim();
+  const desc=document.getElementById('uDesc').value.trim();
+  const file=document.getElementById('uFile').files[0];
+  if(!title){alert('Coloca um título.');return;}
+  if(!file){alert('Seleciona um vídeo.');return;}
+
+  const btn=document.getElementById('uploadBtn');
+  btn.disabled=true;btn.textContent='Enviando...';
+  document.getElementById('progressWrap').style.display='block';
+
+  const ext=file.name.split('.').pop();
+  const path=`${Date.now()}.${ext}`;
+
+  // upload pro storage
+  const{data:storageData,error:storageErr}=await supa.storage
+    .from('videos').upload(path,file,{
+      cacheControl:'3600',upsert:false,
+      onUploadProgress:(p)=>{
+        const pct=Math.round((p.loaded/p.total)*100);
+        document.getElementById('progressBar').style.width=pct+'%';
+        document.getElementById('progressLabel').textContent=pct+'%';
+      }
+    });
+
+  if(storageErr){
+    alert('Erro no upload: '+storageErr.message);
+    btn.disabled=false;btn.textContent='Enviar';return;
+  }
+
+  const{data:{publicUrl}}=supa.storage.from('videos').getPublicUrl(path);
+
+  // salva no banco
+  const{error:dbErr}=await supa.from('videos').insert({
+    title,description:desc||null,url:publicUrl
+  });
+
+  if(dbErr){alert('Erro ao salvar: '+dbErr.message);btn.disabled=false;btn.textContent='Enviar';return;}
+
+  btn.textContent='Enviar';btn.disabled=false;
+  closeEditModal('uploadModal');
+  loadVideos();
+}
+
+// ── edit / delete ─────────────────────────────────────────────
+function openEditVideo(id,title,desc){
+  editingVideoId=id;
+  document.getElementById('evTitle').value=title;
+  document.getElementById('evDesc').value=desc;
+  document.getElementById('editVideoModal').classList.add('active');
+}
+async function saveVideoEdit(){
+  const title=document.getElementById('evTitle').value.trim();
+  const desc=document.getElementById('evDesc').value.trim();
+  if(!title)return;
+  await supa.from('videos').update({title,description:desc||null}).eq('id',editingVideoId);
+  closeEditModal('editVideoModal');
+  loadVideos();
+}
+async function deleteVideo(id,url){
+  if(!confirm('Deletar este vídeo?'))return;
+  // remove do storage
+  const path=url.split('/videos/')[1];
+  if(path)await supa.storage.from('videos').remove([path]);
+  // remove do banco
+  await supa.from('videos').delete().eq('id',id);
+  loadVideos();
+}
+
+// ── init ──────────────────────────────────────────────────────
+loadVideos();
+</script>
+</body>
+</html>
