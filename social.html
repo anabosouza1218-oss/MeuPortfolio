@@ -286,12 +286,16 @@ footer{text-align:center;padding:28px;border-top:1px solid var(--bdr);
 <div class="edit-modal" id="adminLoginModal">
   <div class="edit-form" style="max-width:360px">
     <h3>🔐 Área Restrita</h3>
-    <p style="font-size:13px;color:var(--muted);margin-bottom:20px">Digite a senha de administrador.</p>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:20px">Entre com sua conta de administrador.</p>
+    <div class="form-group">
+      <label>Email</label>
+      <input id="adminEmail" type="email" placeholder="seu@email.com" onkeydown="if(event.key==='Enter')document.getElementById('adminPass').focus()"/>
+    </div>
     <div class="form-group">
       <label>Senha</label>
-      <input id="adminPassInput" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')submitAdminLogin()"/>
+      <input id="adminPass" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')submitAdminLogin()"/>
     </div>
-    <div id="adminPassError" style="display:none;font-size:12px;color:#f87171;margin-top:-8px;margin-bottom:12px">Senha incorreta.</div>
+    <div id="adminPassError" style="display:none;font-size:12px;color:#f87171;margin-top:-8px;margin-bottom:12px"></div>
     <div class="form-actions">
       <button class="btn-sm btn-sm-outline" onclick="closeEditModal('adminLoginModal')">Cancelar</button>
       <button class="btn-sm btn-sm-primary" onclick="submitAdminLogin()">Entrar</button>
@@ -337,35 +341,38 @@ const supa=supabase.createClient(SUPA_URL,SUPA_KEY);
   window.addEventListener('resize',resize);resize();draw();
 })();
 
-// ── admin auth ────────────────────────────────────────────────
-const ADMIN_HASH='76d378736f4e3f94c81a22e670cd6d57664e6a0349a97da007fdbe53abee7fa7';
+// ── admin auth (Supabase) ────────────────────────────────────
 let adminUnlocked=false;
 
-async function sha256(msg){
-  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(msg));
-  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
 function requireAdmin(cb){
   if(adminUnlocked){cb();return;}
   const m=document.getElementById('adminLoginModal');
   m.classList.add('active');m._cb=cb;
-  document.getElementById('adminPassInput').value='';
-  setTimeout(()=>document.getElementById('adminPassInput').focus(),100);
+  document.getElementById('adminEmail').value='';
+  document.getElementById('adminPass').value='';
+  setTimeout(()=>document.getElementById('adminEmail').focus(),100);
 }
 async function submitAdminLogin(){
-  const h=await sha256(document.getElementById('adminPassInput').value);
-  if(h===ADMIN_HASH){
-    adminUnlocked=true;closeEditModal('adminLoginModal');
-    document.getElementById('adminLoginModal')._cb?.();
-    document.getElementById('adminBadge').style.display='flex';
-    document.body.classList.add('admin-mode');
-  } else {
-    document.getElementById('adminPassError').style.display='block';
-    document.getElementById('adminPassInput').value='';
-    document.getElementById('adminPassInput').focus();
+  const email=document.getElementById('adminEmail').value.trim();
+  const pass=document.getElementById('adminPass').value;
+  const err=document.getElementById('adminPassError');
+  err.style.display='none';
+  const{error}=await supa.auth.signInWithPassword({email,password:pass});
+  if(error){
+    err.textContent='Email ou senha incorretos.';
+    err.style.display='block';
+    document.getElementById('adminPass').value='';
+    document.getElementById('adminPass').focus();
+    return;
   }
+  adminUnlocked=true;
+  closeEditModal('adminLoginModal');
+  document.getElementById('adminLoginModal')._cb?.();
+  document.getElementById('adminBadge').style.display='flex';
+  document.body.classList.add('admin-mode');
 }
 function lockAdmin(){
+  supa.auth.signOut();
   adminUnlocked=false;
   document.getElementById('adminBadge').style.display='none';
   document.body.classList.remove('admin-mode');
@@ -560,6 +567,13 @@ async function deleteVideo(id,url){
 
 // ── init ──────────────────────────────────────────────────────
 loadVideos();
+
+// ?admin na URL abre o login automaticamente
+if(new URLSearchParams(location.search).has('admin')){
+  const m=document.getElementById('adminLoginModal');
+  m.classList.add('active');m._cb=()=>{};
+  setTimeout(()=>document.getElementById('adminPassInput').focus(),300);
+}
 </script>
 </body>
 </html>
